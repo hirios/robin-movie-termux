@@ -16,7 +16,7 @@
     </div>
     <script>
         async function search() {
-            var html = await fetch('{{ HOST}}', {
+            var html = await fetch('{{ HOST }}/search', {
                 method: "POST",
                 headers: { 'Content-Type': 'text/plain' },
                 body: JSON.stringify({ title: document.querySelector('[name="movie_title"]').value }),
@@ -26,7 +26,7 @@
         }
 
         async function setLink(url) {
-            var out = await fetch('{{ HOST}}', {
+            var out = await fetch('{{ HOST }}/setlink', {
                 method: "POST",
                 headers: { 'Content-Type': 'text/plain' },
                 body: JSON.stringify({ url: url }),
