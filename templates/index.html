@@ -1,0 +1,50 @@
+<html>
+
+<head>
+    <link type="text/css" rel="stylesheet" href="../static/styles/css.css">
+</head>
+
+<body>
+    <div id="loading"></div>
+    <div id="content"></div>
+    <div id="form">
+        <p>Robin-Movie</p>
+        <p><input type="text" name="movie_title" placeholder="Título do filme"></p>
+        <p><input id="nao" type="submit" class="button" value="BUSCAR" onclick="search()"></p>
+        <br>
+        <!-- <img src="https://avatars.githubusercontent.com/u/83123269?s=200&amp;v=4" alt=""> -->
+    </div>
+    <script>
+        async function search() {
+            var html = await fetch('{{ HOST}}', {
+                method: "POST",
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify({ title: document.querySelector('[name="movie_title"]').value }),
+            }).then(async function (e) { return e.text() })
+
+            document.querySelector('[id="form"]').insertAdjacentHTML('afterend', html)
+        }
+
+        async function setLink(url) {
+            var out = await fetch('{{ HOST}}', {
+                method: "POST",
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify({ url: url }),
+            }).then(async function (e) { return e.text() })
+
+            console.log(out)
+            alert('Escolhido com sucesso!')
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            document.addEventListener('click', function (e) {
+                e.preventDefault()
+                if (e.target && e.target.nodeName === 'IMG') {
+                    setLink(e.target.parentElement.href)
+                }
+            })
+        })
+    </script>
+</body>
+
+</html>
